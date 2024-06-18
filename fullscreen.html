@@ -45,12 +45,14 @@
                 element.msRequestFullscreen().catch(err => {
                     console.error(`Error attempting to enable fullscreen mode (MS): ${err.message} (${err.name})`);
                 });
+            } else {
+                console.log('Fullscreen API is not supported');
             }
         }
 
-        document.addEventListener('touchstart', function() {
+        document.addEventListener('click', function() {
             console.log('Attempting to enter fullscreen mode');
-            requestFullScreen(document.documentElement);
+            requestFullScreen(document.getElementById('fullscreenImage'));
         }, false);
         
         document.addEventListener('fullscreenchange', function() {
