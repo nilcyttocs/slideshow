@@ -56,7 +56,7 @@
             document.addEventListener("msfullscreenchange", fullScreenChange);
 
             // Call the goFullScreen function when the image is clicked
-            img.addEventListener('click', goFullScreen);
+            img.addEventListener('touchstart', goFullScreen);
 
             // Automatically enter fullscreen on page load
             goFullScreen();
