@@ -30,7 +30,9 @@
     <script>
         function requestFullScreen(element) {
             if (element.requestFullscreen) {
-                element.requestFullscreen();
+                element.requestFullscreen().catch(err => {
+                    console.error(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
+                });
             } else if (element.mozRequestFullScreen) { // Firefox
                 element.mozRequestFullScreen();
             } else if (element.webkitRequestFullscreen) { // Chrome, Safari and Opera
@@ -41,6 +43,7 @@
         }
 
         document.addEventListener('click', function() {
+            console.log('Attempting to enter fullscreen mode');
             requestFullScreen(document.documentElement);
         }, false);
         
