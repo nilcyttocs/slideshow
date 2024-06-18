@@ -105,6 +105,7 @@
             if (touchTimer == null) {
                 touchTimer = setTimeout(() => {
                     showNextImage();
+					toggleFullScreen();
                     touchTimer = null;
                 }, 300);
             } else {
