@@ -17,6 +17,33 @@
             height: 100%;
             object-fit: cover;
         }
+
+        div:-webkit-full-screen {
+            height: 100% !important;
+        }
+        div:-moz-full-screen {
+            height: 100% !important;
+        }
+        div:-ms-fullscreen {
+            height: 100% !important;
+        }
+        div:fullscreen {
+            height: 100% !important;
+        }
+
+        /* While in fullscreen, hide any children with class 'tohide' */
+        :-webkit-full-screen .tohide {
+            display: none;
+        }
+        :-moz-full-screen .tohide {
+            display: none;
+        }
+        :-ms-full-screen .tohide {
+            display: none;
+        }
+        :fullscreen .tohide {
+            display: none;
+        }
     </style>
 </head>
 <body>
