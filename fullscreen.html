@@ -14,6 +14,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            background: black;
         }
         #fullscreenImage {
             background: url('foobar1.jpg') no-repeat center center;
@@ -27,18 +28,53 @@
     <div id="fullscreenImage"></div>
 
     <script>
-        document.addEventListener('click', function() {
-            let elem = document.documentElement;
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen();
-            } else if (elem.mozRequestFullScreen) { // Firefox
-                elem.mozRequestFullScreen();
-            } else if (elem.webkitRequestFullscreen) { // Chrome, Safari and Opera
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) { // IE/Edge
-                elem.msRequestFullscreen();
+        function requestFullScreen(element) {
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) { // Firefox
+                element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) { // IE/Edge
+                element.msRequestFullscreen();
             }
+        }
+
+        document.addEventListener('click', function() {
+            requestFullScreen(document.documentElement);
         }, false);
+        
+        document.addEventListener('fullscreenchange', function() {
+            if (document.fullscreenElement) {
+                console.log('Entered fullscreen mode');
+            } else {
+                console.log('Exited fullscreen mode');
+            }
+        });
+
+        document.addEventListener('mozfullscreenchange', function() {
+            if (document.mozFullScreen) {
+                console.log('Entered fullscreen mode (Mozilla)');
+            } else {
+                console.log('Exited fullscreen mode (Mozilla)');
+            }
+        });
+
+        document.addEventListener('webkitfullscreenchange', function() {
+            if (document.webkitIsFullScreen) {
+                console.log('Entered fullscreen mode (Webkit)');
+            } else {
+                console.log('Exited fullscreen mode (Webkit)');
+            }
+        });
+
+        document.addEventListener('msfullscreenchange', function() {
+            if (document.msFullscreenElement) {
+                console.log('Entered fullscreen mode (MS)');
+            } else {
+                console.log('Exited fullscreen mode (MS)');
+            }
+        });
     </script>
 </body>
 </html>
