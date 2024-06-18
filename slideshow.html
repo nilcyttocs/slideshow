@@ -35,7 +35,7 @@
         ];
 
         let currentIndex = 0;
-        let clickTimer = null;
+        let touchTimer = null;
 
         function showNextImage() {
             const imgElement = document.getElementById('slideshow');
@@ -53,15 +53,15 @@
             }
         }
 
-        document.getElementById('slideshow').addEventListener('click', () => {
-            if (clickTimer === null) {
-                clickTimer = setTimeout(() => {
+        document.getElementById('slideshow').addEventListener('touchstart', (e) => {
+            if (touchTimer == null) {
+                touchTimer = setTimeout(() => {
+                    touchTimer = null;
                     showNextImage();
-                    clickTimer = null;
-                }, 350);
+                }, 300);
             } else {
-                clearTimeout(clickTimer);
-                clickTimer = null;
+                clearTimeout(touchTimer);
+                touchTimer = null;
                 toggleFullScreen();
             }
         });
