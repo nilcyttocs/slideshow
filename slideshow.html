@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slideshow</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+        }
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <img id="slideshow" alt="Slideshow">
+    <script>
+        const images = [
+            'foobar1.jpg',
+            'foobar2.jpg',
+            'foobar3.jpg'
+        ];
+
+        let currentIndex = 0;
+        let clickTimer = null;
+
+        function showNextImage() {
+            const imgElement = document.getElementById('slideshow');
+            imgElement.src = images[currentIndex];
+            currentIndex = (currentIndex + 1) % images.length;
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        document.getElementById('slideshow').addEventListener('click', () => {
+            if (clickTimer === null) {
+                clickTimer = setTimeout(() => {
+                    showNextImage();
+                    clickTimer = null;
+                }, 350);
+            } else {
+                clearTimeout(clickTimer);
+                clickTimer = null;
+                toggleFullScreen();
+            }
+        });
+
+        showNextImage();
+    </script>
+</body>
+</html>
