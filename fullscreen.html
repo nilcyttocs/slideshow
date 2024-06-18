@@ -34,15 +34,21 @@
                     console.error(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
                 });
             } else if (element.mozRequestFullScreen) { // Firefox
-                element.mozRequestFullScreen();
+                element.mozRequestFullScreen().catch(err => {
+                    console.error(`Error attempting to enable fullscreen mode (Mozilla): ${err.message} (${err.name})`);
+                });
             } else if (element.webkitRequestFullscreen) { // Chrome, Safari and Opera
-                element.webkitRequestFullscreen();
+                element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT).catch(err => {
+                    console.error(`Error attempting to enable fullscreen mode (Webkit): ${err.message} (${err.name})`);
+                });
             } else if (element.msRequestFullscreen) { // IE/Edge
-                element.msRequestFullscreen();
+                element.msRequestFullscreen().catch(err => {
+                    console.error(`Error attempting to enable fullscreen mode (MS): ${err.message} (${err.name})`);
+                });
             }
         }
 
-        document.addEventListener('click', function() {
+        document.addEventListener('touchstart', function() {
             console.log('Attempting to enter fullscreen mode');
             requestFullScreen(document.documentElement);
         }, false);
