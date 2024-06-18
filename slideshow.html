@@ -34,10 +34,23 @@
             width: 100%;
             height: 100%;
         }
+        #doubleTapFeedback {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            display: none;
+            font-size: 1.5em;
+            color: black;
+        }
     </style>
 </head>
 <body>
     <img id="slideshow" alt="Slideshow">
+    <div id="doubleTapFeedback">Double Tap Detected</div>
     <script>
         const images = [
             'foobar1.jpg',
@@ -80,15 +93,24 @@
             }
         }
 
+        function showDoubleTapFeedback() {
+            const feedbackElement = document.getElementById('doubleTapFeedback');
+            feedbackElement.style.display = 'block';
+            setTimeout(() => {
+                feedbackElement.style.display = 'none';
+            }, 500);
+        }
+
         document.getElementById('slideshow').addEventListener('touchstart', (e) => {
             if (touchTimer == null) {
                 touchTimer = setTimeout(() => {
-                    touchTimer = null;
                     showNextImage();
+                    touchTimer = null;
                 }, 300);
             } else {
                 clearTimeout(touchTimer);
                 touchTimer = null;
+                showDoubleTapFeedback();
                 toggleFullScreen();
             }
         });
