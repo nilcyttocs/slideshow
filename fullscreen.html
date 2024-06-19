@@ -3,99 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Full Screen Image</title>
+    <title>Full Screen Image in iFrame</title>
     <style>
-        #video {
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #fullscreen-iframe {
             width: 100%;
-            height: auto;
-            cursor: pointer;
+            height: 100%;
+            border: none;
         }
 
-        .full-screen {
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
+        iframe:-webkit-full-screen {
+            width: 100% !important;
+            height: 100% !important;
         }
-
-        #indicator {
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            display: none;
+        iframe:-moz-full-screen {
+            width: 100% !important;
+            height: 100% !important;
+        }
+        iframe:-ms-fullscreen {
+            width: 100% !important;
+            height: 100% !important;
+        }
+        iframe:fullscreen {
+            width: 100% !important;
+            height: 100% !important;
         }
     </style>
 </head>
 <body>
-    <video id="video" poster="foobar3.jpg">
-        <source src="" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    <div id="indicator"></div>
-
+    <iframe src="foobar1.html" id="fullscreen-iframe"></iframe>
     <script>
-        function detectFullScreenApi() {
-            const video = document.getElementById('video');
+        document.addEventListener("DOMContentLoaded", function() {
+            const iframe = document.getElementById('fullscreen-iframe');
 
-            if (video.requestFullscreen) {
-                return { method: video.requestFullscreen, name: 'requestFullscreen' };
-            } else if (video.webkitRequestFullscreen) { // Safari
-                return { method: video.webkitRequestFullscreen, name: 'webkitRequestFullscreen' };
-            } else if (video.mozRequestFullScreen) { // Firefox
-                return { method: video.mozRequestFullScreen, name: 'mozRequestFullScreen' };
-            } else if (video.msRequestFullscreen) { // IE/Edge
-                return { method: video.msRequestFullscreen, name: 'msRequestFullscreen' };
-            } else {
-                return null;
+            function goFullScreen() {
+                if (iframe.requestFullscreen) {
+                    iframe.requestFullscreen();
+                } else if (iframe.mozRequestFullScreen) { // Firefox
+                    iframe.mozRequestFullScreen();
+                } else if (iframe.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+                    iframe.webkitRequestFullscreen();
+                } else if (iframe.msRequestFullscreen) { // IE/Edge
+                    iframe.msRequestFullscreen();
+                }
             }
-        }
 
-        document.getElementById('video').addEventListener('click', function() {
-            const video = document.getElementById('video');
-            const indicator = document.getElementById('indicator');
-            const fullScreenApi = detectFullScreenApi();
-
-            if (fullScreenApi) {
-                fullScreenApi.method.call(video);
-                indicator.textContent = `${fullScreenApi.name} called`;
-                video.classList.add('full-screen');
-                indicator.style.display = 'block';
-            } else {
-                console.log('Full-screen API is not supported in this browser.');
-                indicator.textContent = 'Full-screen API is not supported';
-                indicator.style.display = 'block';
+            function fullScreenChange() {
+                if (document.fullscreenElement ||
+                    document.mozFullScreenElement ||
+                    document.webkitFullscreenElement ||
+                    document.msFullscreenElement) {
+                    iframe.style.width = '100%';
+                    iframe.style.height = '100%';
+                } else {
+                    iframe.style.width = 'auto';
+                    iframe.style.height = 'auto';
+                }
             }
-        });
 
-        document.addEventListener('fullscreenchange', function() {
-            if (!document.fullscreenElement) {
-                document.getElementById('video').classList.remove('full-screen');
-                document.getElementById('indicator').style.display = 'none';
-            }
-        });
+            document.addEventListener("fullscreenchange", fullScreenChange);
+            document.addEventListener("mozfullscreenchange", fullScreenChange);
+            document.addEventListener("webkitfullscreenchange", fullScreenChange);
+            document.addEventListener("msfullscreenchange", fullScreenChange);
 
-        document.addEventListener('webkitfullscreenchange', function() {
-            if (!document.webkitFullscreenElement) {
-                document.getElementById('video').classList.remove('full-screen');
-                document.getElementById('indicator').style.display = 'none';
-            }
-        });
+            // Call the goFullScreen function when the iframe is clicked
+            iframe.addEventListener('click', goFullScreen);
 
-        document.addEventListener('mozfullscreenchange', function() {
-            if (!document.mozFullScreenElement) {
-                document.getElementById('video').classList.remove('full-screen');
-                document.getElementById('indicator').style.display = 'none';
-            }
-        });
-
-        document.addEventListener('msfullscreenchange', function() {
-            if (!document.msFullscreenElement) {
-                document.getElementById('video').classList.remove('full-screen');
-                document.getElementById('indicator').style.display = 'none';
-            }
+            // Automatically enter fullscreen on page load
+            goFullScreen();
         });
     </script>
 </body>
