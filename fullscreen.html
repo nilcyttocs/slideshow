@@ -5,21 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Full Screen Image</title>
     <style>
-        #wrapper {
+        #video {
             width: 100%;
             height: auto;
             cursor: pointer;
-            background-image: url('foobar2.jpg');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            height: 500px; /* Set an initial height */
         }
 
         .full-screen {
             width: 100vw;
             height: 100vh;
-            background-size: cover;
+            object-fit: cover;
         }
 
         #indicator {
@@ -35,35 +30,38 @@
     </style>
 </head>
 <body>
-    <div id="wrapper"></div>
+    <video id="video" poster="foobar3.jpg" controls>
+        <source src="" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
     <div id="indicator"></div>
 
     <script>
         function detectFullScreenApi() {
-            const wrapper = document.getElementById('wrapper');
+            const video = document.getElementById('video');
 
-            if (wrapper.requestFullscreen) {
-                return { method: wrapper.requestFullscreen, name: 'requestFullscreen' };
-            } else if (wrapper.webkitRequestFullscreen) { // Safari
-                return { method: wrapper.webkitRequestFullscreen, name: 'webkitRequestFullscreen' };
-            } else if (wrapper.mozRequestFullScreen) { // Firefox
-                return { method: wrapper.mozRequestFullScreen, name: 'mozRequestFullScreen' };
-            } else if (wrapper.msRequestFullscreen) { // IE/Edge
-                return { method: wrapper.msRequestFullscreen, name: 'msRequestFullscreen' };
+            if (video.requestFullscreen) {
+                return { method: video.requestFullscreen, name: 'requestFullscreen' };
+            } else if (video.webkitRequestFullscreen) { // Safari
+                return { method: video.webkitRequestFullscreen, name: 'webkitRequestFullscreen' };
+            } else if (video.mozRequestFullScreen) { // Firefox
+                return { method: video.mozRequestFullScreen, name: 'mozRequestFullScreen' };
+            } else if (video.msRequestFullscreen) { // IE/Edge
+                return { method: video.msRequestFullscreen, name: 'msRequestFullscreen' };
             } else {
                 return null;
             }
         }
 
-        document.getElementById('wrapper').addEventListener('click', function() {
-            const wrapper = document.getElementById('wrapper');
+        document.getElementById('video').addEventListener('click', function() {
+            const video = document.getElementById('video');
             const indicator = document.getElementById('indicator');
             const fullScreenApi = detectFullScreenApi();
 
             if (fullScreenApi) {
-                fullScreenApi.method.call(wrapper);
+                fullScreenApi.method.call(video);
                 indicator.textContent = `${fullScreenApi.name} called`;
-                wrapper.classList.add('full-screen');
+                video.classList.add('full-screen');
                 indicator.style.display = 'block';
             } else {
                 console.log('Full-screen API is not supported in this browser.');
@@ -74,28 +72,28 @@
 
         document.addEventListener('fullscreenchange', function() {
             if (!document.fullscreenElement) {
-                document.getElementById('wrapper').classList.remove('full-screen');
+                document.getElementById('video').classList.remove('full-screen');
                 document.getElementById('indicator').style.display = 'none';
             }
         });
 
         document.addEventListener('webkitfullscreenchange', function() {
             if (!document.webkitFullscreenElement) {
-                document.getElementById('wrapper').classList.remove('full-screen');
+                document.getElementById('video').classList.remove('full-screen');
                 document.getElementById('indicator').style.display = 'none';
             }
         });
 
         document.addEventListener('mozfullscreenchange', function() {
             if (!document.mozFullScreenElement) {
-                document.getElementById('wrapper').classList.remove('full-screen');
+                document.getElementById('video').classList.remove('full-screen');
                 document.getElementById('indicator').style.display = 'none';
             }
         });
 
         document.addEventListener('msfullscreenchange', function() {
             if (!document.msFullscreenElement) {
-                document.getElementById('wrapper').classList.remove('full-screen');
+                document.getElementById('video').classList.remove('full-screen');
                 document.getElementById('indicator').style.display = 'none';
             }
         });
