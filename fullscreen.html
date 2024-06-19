@@ -9,12 +9,17 @@
             width: 100%;
             height: auto;
             cursor: pointer;
+            background-image: url('foobar2.jpg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 500px; /* Set an initial height */
         }
 
         .full-screen {
             width: 100vw;
             height: 100vh;
-            object-fit: cover;
+            background-size: cover;
         }
 
         #indicator {
@@ -30,9 +35,7 @@
     </style>
 </head>
 <body>
-    <div id="wrapper">
-        <img id="image" src="foobar1.jpg" alt="Sample Image">
-    </div>
+    <div id="wrapper"></div>
     <div id="indicator"></div>
 
     <script>
