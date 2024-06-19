@@ -1,125 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Fullscreen Example</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Fullscreen Video</title>
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             margin: 0;
-        }
-        #myElement {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            background: lightblue;
+            overflow: hidden;
         }
         video {
-            width: 100%;
-            height: auto;
-        }
-        #buttons {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            background: #f1f1f1;
-            padding: 10px 0;
-        }
-        :fullscreen {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-        :-webkit-full-screen {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-        :-moz-full-screen {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-        :-ms-fullscreen {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
+            display: block;
         }
     </style>
 </head>
 <body>
-    <div id="myElement">
-        <video id="myVideo" controls poster="foobar1.jpg">
-            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </div>
-    <div id="buttons">
-        <button id="fullscreenBtn">Go Fullscreen</button>
-        <button id="exitFullscreenBtn">Exit Fullscreen</button>
-    </div>
+    <video id="video" src="foobar.mp4" autoplay muted></video>
 
     <script>
-        function enterFullscreen(element) {
-            if (element.requestFullscreen) {
-                element.requestFullscreen().catch(err => console.log(err));
-            } else if (element.mozRequestFullScreen) { // Firefox
-                element.mozRequestFullScreen().catch(err => console.log(err));
-            } else if (element.webkitRequestFullscreen) { // Chrome, Safari, and Opera
-                element.webkitRequestFullscreen().catch(err => console.log(err));
-            } else if (element.msRequestFullscreen) { // IE/Edge
-                element.msRequestFullscreen().catch(err => console.log(err));
-            } else {
-                alert('Fullscreen API is not supported in this browser.');
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const videoElement = document.getElementById('video');
+
+            // Play the video
+            videoElement.play();
+
+            // Fullscreen function
+            function openFullscreen() {
+                if (videoElement.requestFullscreen) {
+                    videoElement.requestFullscreen();
+                } else if (videoElement.mozRequestFullScreen) { // Firefox
+                    videoElement.mozRequestFullScreen();
+                } else if (videoElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                    videoElement.webkitRequestFullscreen();
+                } else if (videoElement.msRequestFullscreen) { // IE/Edge
+                    videoElement.msRequestFullscreen();
+                }
             }
-        }
 
-        function exitFullscreen() {
-            if (document.exitFullscreen) {
-                document.exitFullscreen().catch(err => console.log(err));
-            } else if (document.mozCancelFullScreen) { // Firefox
-                document.mozCancelFullScreen().catch(err => console.log(err));
-            } else if (document.webkitExitFullscreen) { // Chrome, Safari, and Opera
-                document.webkitExitFullscreen().catch(err => console.log(err));
-            } else if (document.msExitFullscreen) { // IE/Edge
-                document.msExitFullscreen().catch(err => console.log(err));
-            } else {
-                alert('Fullscreen API is not supported in this browser.');
-            }
-        }
-
-        function setupFullscreen(element) {
-            ['click', 'touchstart'].forEach(event => {
-                document.getElementById('fullscreenBtn').addEventListener(event, () => enterFullscreen(element));
-                document.getElementById('exitFullscreenBtn').addEventListener(event, exitFullscreen);
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const videoElement = document.getElementById('myVideo');
-            setupFullscreen(videoElement);
-        });
-
-        // Fullscreen change event for debugging
-        document.addEventListener('fullscreenchange', (event) => {
-            console.log('Fullscreen change:', document.fullscreenElement);
-        });
-
-        document.addEventListener('webkitfullscreenchange', (event) => {
-            console.log('Webkit Fullscreen change:', document.webkitFullscreenElement);
-        });
-
-        document.addEventListener('mozfullscreenchange', (event) => {
-            console.log('Moz Fullscreen change:', document.mozFullScreenElement);
-        });
-
-        document.addEventListener('MSFullscreenChange', (event) => {
-            console.log('MS Fullscreen change:', document.msFullscreenElement);
+            // Listen for the video to start playing and then go fullscreen
+            videoElement.addEventListener('playing', openFullscreen);
         });
     </script>
 </body>
