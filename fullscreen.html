@@ -8,6 +8,7 @@
         #image {
             width: 100%;
             height: auto;
+            cursor: pointer;
         }
 
         .full-screen {
@@ -30,11 +31,10 @@
 </head>
 <body>
     <img id="image" src="foobar1.jpg" alt="Sample Image">
-    <button id="fullScreenBtn">View Full Screen</button>
     <div id="indicator"></div>
 
     <script>
-        document.getElementById('fullScreenBtn').addEventListener('click', function() {
+        document.getElementById('image').addEventListener('click', function() {
             const image = document.getElementById('image');
             const indicator = document.getElementById('indicator');
 
