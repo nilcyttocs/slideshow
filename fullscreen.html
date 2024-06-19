@@ -11,6 +11,10 @@
             align-items: center;
             justify-content: center;
         }
+        video {
+            width: 100%;
+            height: auto;
+        }
         :fullscreen {
             width: 100%;
             height: 100%;
@@ -35,7 +39,10 @@
 </head>
 <body>
     <div id="myElement">
-        <p>Click the button to enter full-screen mode</p>
+        <video id="myVideo" controls>
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </div>
     <button id="fullscreenBtn">Go Fullscreen</button>
     <button id="exitFullscreenBtn">Exit Fullscreen</button>
@@ -69,13 +76,16 @@
             }
         }
 
-        document.getElementById('fullscreenBtn').addEventListener('click', function() {
-            const element = document.getElementById('myElement');
-            enterFullscreen(element);
-        });
+        function setupFullscreen(element) {
+            ['click', 'touchstart'].forEach(event => {
+                document.getElementById('fullscreenBtn').addEventListener(event, () => enterFullscreen(element));
+                document.getElementById('exitFullscreenBtn').addEventListener(event, exitFullscreen);
+            });
+        }
 
-        document.getElementById('exitFullscreenBtn').addEventListener('click', function() {
-            exitFullscreen();
+        document.addEventListener('DOMContentLoaded', () => {
+            const videoElement = document.getElementById('myVideo');
+            setupFullscreen(videoElement);
         });
 
         // Fullscreen change event for debugging
