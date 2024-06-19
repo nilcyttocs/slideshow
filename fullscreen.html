@@ -11,7 +11,7 @@
             align-items: center;
             justify-content: center;
         }
-        video {
+        img {
             width: 100%;
             height: auto;
         }
@@ -39,10 +39,7 @@
 </head>
 <body>
     <div id="myElement">
-        <video id="myVideo" controls>
-            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+        <img id="myImage" src="foobar1.jpg" alt="Poster Image">
     </div>
     <button id="fullscreenBtn">Go Fullscreen</button>
     <button id="exitFullscreenBtn">Exit Fullscreen</button>
@@ -84,8 +81,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const videoElement = document.getElementById('myVideo');
-            setupFullscreen(videoElement);
+            const imageElement = document.getElementById('myImage');
+            setupFullscreen(imageElement);
         });
 
         // Fullscreen change event for debugging
