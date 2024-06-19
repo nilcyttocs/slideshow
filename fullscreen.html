@@ -34,7 +34,7 @@
     <div id="indicator"></div>
 
     <script>
-        document.getElementById('image').addEventListener('click', function() {
+        document.getElementById('image').addEventListener('touchstart', function() {
             const image = document.getElementById('image');
             const indicator = document.getElementById('indicator');
             let fullScreenCalled = false;
@@ -56,10 +56,8 @@
                 indicator.textContent = 'Full-screen API is not supported';
             }
 
-            if (fullScreenCalled) {
-                image.classList.add('full-screen');
-                indicator.style.display = 'block';
-            }
+            image.classList.add('full-screen');
+            indicator.style.display = 'block';
         });
 
         document.addEventListener('fullscreenchange', function() {
