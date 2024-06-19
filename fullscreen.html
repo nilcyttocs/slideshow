@@ -15,42 +15,62 @@
             height: 100vh;
             object-fit: cover;
         }
+
+        #indicator {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <img id="image" src="foobar1.jpg" alt="Sample Image">
+    <img id="image" src="path-to-your-image.jpg" alt="Sample Image">
     <button id="fullScreenBtn">View Full Screen</button>
+    <div id="indicator"></div>
 
     <script>
         document.getElementById('fullScreenBtn').addEventListener('click', function() {
             const image = document.getElementById('image');
+            const indicator = document.getElementById('indicator');
 
             if (image.requestFullscreen) {
                 image.requestFullscreen();
+                indicator.textContent = 'requestFullscreen called';
             } else if (image.webkitRequestFullscreen) { // Safari
                 image.webkitRequestFullscreen();
+                indicator.textContent = 'webkitRequestFullscreen called';
             } else if (image.msRequestFullscreen) { // IE/Edge
                 image.msRequestFullscreen();
+                indicator.textContent = 'msRequestFullscreen called';
             }
 
             image.classList.add('full-screen');
+            indicator.style.display = 'block';
         });
 
         document.addEventListener('fullscreenchange', function() {
             if (!document.fullscreenElement) {
                 document.getElementById('image').classList.remove('full-screen');
+                document.getElementById('indicator').style.display = 'none';
             }
         });
 
         document.addEventListener('webkitfullscreenchange', function() {
             if (!document.webkitFullscreenElement) {
                 document.getElementById('image').classList.remove('full-screen');
+                document.getElementById('indicator').style.display = 'none';
             }
         });
 
         document.addEventListener('msfullscreenchange', function() {
             if (!document.msFullscreenElement) {
                 document.getElementById('image').classList.remove('full-screen');
+                document.getElementById('indicator').style.display = 'none';
             }
         });
     </script>
