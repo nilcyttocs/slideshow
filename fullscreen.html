@@ -30,27 +30,36 @@
     </style>
 </head>
 <body>
-    <img id="image" src="foobar1.jpg" alt="Sample Image">
+    <img id="image" src="path-to-your-image.jpg" alt="Sample Image">
     <div id="indicator"></div>
 
     <script>
         document.getElementById('image').addEventListener('click', function() {
             const image = document.getElementById('image');
             const indicator = document.getElementById('indicator');
+            let fullScreenCalled = false;
 
             if (image.requestFullscreen) {
                 image.requestFullscreen();
                 indicator.textContent = 'requestFullscreen called';
+                fullScreenCalled = true;
             } else if (image.webkitRequestFullscreen) { // Safari
                 image.webkitRequestFullscreen();
                 indicator.textContent = 'webkitRequestFullscreen called';
+                fullScreenCalled = true;
             } else if (image.msRequestFullscreen) { // IE/Edge
                 image.msRequestFullscreen();
                 indicator.textContent = 'msRequestFullscreen called';
+                fullScreenCalled = true;
+            } else {
+                console.log('Full-screen API is not supported in this browser.');
+                indicator.textContent = 'Full-screen API is not supported';
             }
 
-            image.classList.add('full-screen');
-            indicator.style.display = 'block';
+            if (fullScreenCalled) {
+                image.classList.add('full-screen');
+                indicator.style.display = 'block';
+            }
         });
 
         document.addEventListener('fullscreenchange', function() {
