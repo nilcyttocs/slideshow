@@ -3,87 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fullscreen Image</title>
+    <title>Full Screen Image</title>
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
+        #image {
             width: 100%;
-            height: 100%;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: black;
+            height: auto;
         }
-        #fullscreenImage {
-            background: url('foobar1.jpg') no-repeat center center;
-            background-size: cover;
-            width: 100%;
-            height: 100%;
+
+        .full-screen {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
         }
     </style>
 </head>
 <body>
-    <div id="fullscreenImage"></div>
+    <img id="image" src="foobar1.jpg" alt="Sample Image">
+    <button id="fullScreenBtn">View Full Screen</button>
 
     <script>
-        function requestFullScreen(element) {
-            if (element.requestFullscreen) {
-                element.requestFullscreen().catch(err => {
-                    console.error(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
-                });
-            } else if (element.mozRequestFullScreen) { // Firefox
-                element.mozRequestFullScreen().catch(err => {
-                    console.error(`Error attempting to enable fullscreen mode (Mozilla): ${err.message} (${err.name})`);
-                });
-            } else if (element.webkitRequestFullscreen) { // Chrome, Safari and Opera
-                element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT).catch(err => {
-                    console.error(`Error attempting to enable fullscreen mode (Webkit): ${err.message} (${err.name})`);
-                });
-            } else if (element.msRequestFullscreen) { // IE/Edge
-                element.msRequestFullscreen().catch(err => {
-                    console.error(`Error attempting to enable fullscreen mode (MS): ${err.message} (${err.name})`);
-                });
-            } else {
-                console.log('Fullscreen API is not supported');
-            }
-        }
+        document.getElementById('fullScreenBtn').addEventListener('click', function() {
+            const image = document.getElementById('image');
 
-        document.addEventListener('click', function() {
-            console.log('Attempting to enter fullscreen mode');
-            requestFullScreen(document.getElementById('fullscreenImage'));
-        }, false);
-        
-        document.addEventListener('fullscreenchange', function() {
-            if (document.fullscreenElement) {
-                console.log('Entered fullscreen mode');
-            } else {
-                console.log('Exited fullscreen mode');
+            if (image.requestFullscreen) {
+                image.requestFullscreen();
+            } else if (image.webkitRequestFullscreen) { // Safari
+                image.webkitRequestFullscreen();
+            } else if (image.msRequestFullscreen) { // IE/Edge
+                image.msRequestFullscreen();
             }
+
+            image.classList.add('full-screen');
         });
 
-        document.addEventListener('mozfullscreenchange', function() {
-            if (document.mozFullScreen) {
-                console.log('Entered fullscreen mode (Mozilla)');
-            } else {
-                console.log('Exited fullscreen mode (Mozilla)');
+        document.addEventListener('fullscreenchange', function() {
+            if (!document.fullscreenElement) {
+                document.getElementById('image').classList.remove('full-screen');
             }
         });
 
         document.addEventListener('webkitfullscreenchange', function() {
-            if (document.webkitIsFullScreen) {
-                console.log('Entered fullscreen mode (Webkit)');
-            } else {
-                console.log('Exited fullscreen mode (Webkit)');
+            if (!document.webkitFullscreenElement) {
+                document.getElementById('image').classList.remove('full-screen');
             }
         });
 
         document.addEventListener('msfullscreenchange', function() {
-            if (document.msFullscreenElement) {
-                console.log('Entered fullscreen mode (MS)');
-            } else {
-                console.log('Exited fullscreen mode (MS)');
+            if (!document.msFullscreenElement) {
+                document.getElementById('image').classList.remove('full-screen');
             }
         });
     </script>
