@@ -1,82 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Full Screen Image in iFrame</title>
+    <title>Fullscreen Example</title>
     <style>
-        html, body {
-            margin: 0;
-            padding: 0;
+        #myElement {
+            width: 100%;
+            height: 200px;
+            background: lightblue;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        :fullscreen {
+            width: 100%;
             height: 100%;
             overflow: hidden;
         }
-
-        #fullscreen-iframe {
+        :-webkit-full-screen {
             width: 100%;
             height: 100%;
-            border: none;
+            overflow: hidden;
         }
-
-        iframe:-webkit-full-screen {
-            width: 100% !important;
-            height: 100% !important;
+        :-moz-full-screen {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
-        iframe:-moz-full-screen {
-            width: 100% !important;
-            height: 100% !important;
-        }
-        iframe:-ms-fullscreen {
-            width: 100% !important;
-            height: 100% !important;
-        }
-        iframe:fullscreen {
-            width: 100% !important;
-            height: 100% !important;
+        :-ms-fullscreen {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
     </style>
 </head>
 <body>
-    <iframe src="foobar1.html" id="fullscreen-iframe"></iframe>
+    <div id="myElement">
+        <p>Click the button to enter full-screen mode</p>
+    </div>
+    <button id="fullscreenBtn">Go Fullscreen</button>
+    <button id="exitFullscreenBtn">Exit Fullscreen</button>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const iframe = document.getElementById('fullscreen-iframe');
-
-            function goFullScreen() {
-                if (iframe.requestFullscreen) {
-                    iframe.requestFullscreen();
-                } else if (iframe.mozRequestFullScreen) { // Firefox
-                    iframe.mozRequestFullScreen();
-                } else if (iframe.webkitRequestFullscreen) { // Chrome, Safari, and Opera
-                    iframe.webkitRequestFullscreen();
-                } else if (iframe.msRequestFullscreen) { // IE/Edge
-                    iframe.msRequestFullscreen();
-                }
+        document.getElementById('fullscreenBtn').addEventListener('click', function() {
+            const element = document.getElementById('myElement');
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) { // Firefox
+                element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+                element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) { // IE/Edge
+                element.msRequestFullscreen();
+            } else {
+                alert('Fullscreen API is not supported in this browser.');
             }
+        });
 
-            function fullScreenChange() {
-                if (document.fullscreenElement ||
-                    document.mozFullScreenElement ||
-                    document.webkitFullscreenElement ||
-                    document.msFullscreenElement) {
-                    iframe.style.width = '100%';
-                    iframe.style.height = '100%';
-                } else {
-                    iframe.style.width = 'auto';
-                    iframe.style.height = 'auto';
-                }
+        document.getElementById('exitFullscreenBtn').addEventListener('click', function() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) { // Firefox
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) { // Chrome, Safari, and Opera
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { // IE/Edge
+                document.msExitFullscreen();
+            } else {
+                alert('Fullscreen API is not supported in this browser.');
             }
-
-            document.addEventListener("fullscreenchange", fullScreenChange);
-            document.addEventListener("mozfullscreenchange", fullScreenChange);
-            document.addEventListener("webkitfullscreenchange", fullScreenChange);
-            document.addEventListener("msfullscreenchange", fullScreenChange);
-
-            // Call the goFullScreen function when the iframe is clicked
-            iframe.addEventListener('click', goFullScreen);
-
-            // Automatically enter fullscreen on page load
-            goFullScreen();
         });
     </script>
 </body>
