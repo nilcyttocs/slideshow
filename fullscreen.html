@@ -47,6 +47,10 @@
                 image.webkitRequestFullscreen();
                 indicator.textContent = 'webkitRequestFullscreen called';
                 fullScreenCalled = true;
+            } else if (image.mozRequestFullScreen) { // Firefox
+                image.mozRequestFullScreen();
+                indicator.textContent = 'mozRequestFullScreen called';
+                fullScreenCalled = true;
             } else if (image.msRequestFullscreen) { // IE/Edge
                 image.msRequestFullscreen();
                 indicator.textContent = 'msRequestFullscreen called';
@@ -69,6 +73,13 @@
 
         document.addEventListener('webkitfullscreenchange', function() {
             if (!document.webkitFullscreenElement) {
+                document.getElementById('image').classList.remove('full-screen');
+                document.getElementById('indicator').style.display = 'none';
+            }
+        });
+
+        document.addEventListener('mozfullscreenchange', function() {
+            if (!document.mozFullScreenElement) {
                 document.getElementById('image').classList.remove('full-screen');
                 document.getElementById('indicator').style.display = 'none';
             }
