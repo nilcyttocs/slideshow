@@ -41,33 +41,58 @@
     <button id="exitFullscreenBtn">Exit Fullscreen</button>
 
     <script>
-        document.getElementById('fullscreenBtn').addEventListener('click', function() {
-            const element = document.getElementById('myElement');
+        function enterFullscreen(element) {
             if (element.requestFullscreen) {
-                element.requestFullscreen();
+                element.requestFullscreen().catch(err => console.log(err));
             } else if (element.mozRequestFullScreen) { // Firefox
-                element.mozRequestFullScreen();
+                element.mozRequestFullScreen().catch(err => console.log(err));
             } else if (element.webkitRequestFullscreen) { // Chrome, Safari, and Opera
-                element.webkitRequestFullscreen();
+                element.webkitRequestFullscreen().catch(err => console.log(err));
             } else if (element.msRequestFullscreen) { // IE/Edge
-                element.msRequestFullscreen();
+                element.msRequestFullscreen().catch(err => console.log(err));
             } else {
                 alert('Fullscreen API is not supported in this browser.');
             }
+        }
+
+        function exitFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen().catch(err => console.log(err));
+            } else if (document.mozCancelFullScreen) { // Firefox
+                document.mozCancelFullScreen().catch(err => console.log(err));
+            } else if (document.webkitExitFullscreen) { // Chrome, Safari, and Opera
+                document.webkitExitFullscreen().catch(err => console.log(err));
+            } else if (document.msExitFullscreen) { // IE/Edge
+                document.msExitFullscreen().catch(err => console.log(err));
+            } else {
+                alert('Fullscreen API is not supported in this browser.');
+            }
+        }
+
+        document.getElementById('fullscreenBtn').addEventListener('click', function() {
+            const element = document.getElementById('myElement');
+            enterFullscreen(element);
         });
 
         document.getElementById('exitFullscreenBtn').addEventListener('click', function() {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.mozCancelFullScreen) { // Firefox
-                document.mozCancelFullScreen();
-            } else if (document.webkitExitFullscreen) { // Chrome, Safari, and Opera
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) { // IE/Edge
-                document.msExitFullscreen();
-            } else {
-                alert('Fullscreen API is not supported in this browser.');
-            }
+            exitFullscreen();
+        });
+
+        // Fullscreen change event for debugging
+        document.addEventListener('fullscreenchange', (event) => {
+            console.log('Fullscreen change:', document.fullscreenElement);
+        });
+
+        document.addEventListener('webkitfullscreenchange', (event) => {
+            console.log('Webkit Fullscreen change:', document.webkitFullscreenElement);
+        });
+
+        document.addEventListener('mozfullscreenchange', (event) => {
+            console.log('Moz Fullscreen change:', document.mozFullScreenElement);
+        });
+
+        document.addEventListener('MSFullscreenChange', (event) => {
+            console.log('MS Fullscreen change:', document.msFullscreenElement);
         });
     </script>
 </body>
